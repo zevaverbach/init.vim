@@ -1,9 +1,17 @@
 set number relativenumber
 set signcolumn=yes
+set shiftwidth=4 smarttab
+set tabstop=4
+set expandtab
+set autoindent
+set smartindent
+set softtabstop=4
+
 
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif 
+autocmd BufWritePre *.js Neoformat
 
 set hidden
 set undofile
@@ -82,8 +90,8 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Remap keys for applying refactor code actions
 nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
-xmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
-nmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+xmap <silent> <leader>re  <Plug>(coc-codeaction-refactor-selected)
+nmap <silent> <leader>re  <Plug>(coc-codeaction-refactor-selected)
 
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
@@ -105,6 +113,7 @@ call plug#begin()
   Plug 'meain/vim-printer'
   Plug 'tpope/vim-commentary'
   Plug 'neoclide/coc.nvim', {'branch': 'release'} 
+  Plug 'sbdchd/neoformat'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 call plug#end()
 

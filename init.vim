@@ -11,7 +11,11 @@ set softtabstop=4
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif 
-autocmd BufWritePre *.js Neoformat
+autocmd BufWritePre *.js silent! Neoformat
+autocmd BufWritePre *.py silent! Neoformat
+
+let g:neoformat_python_black = {'exe': '/usr/bin/black', 'args': ['-'], 'stdin': 1}
+let g:neoformat_enabled_python = ['black']
 
 set hidden
 set undofile
@@ -20,6 +24,8 @@ set undofile
 set undodir=/home/zev/.vimundo/
 
 let mapleader=" "
+" append current line to line above
+nnoremap <c-u> ghdwi<BS><C-c>
 noremap <c-s> :w<cr>
 nnoremap <silent> <leader>v :e ~/.config/nvim/init.vim<cr>
 nnoremap <silent> <leader>w :bw<cr>
@@ -40,7 +46,7 @@ noremap v V
 noremap V v
 
 " Helix-style bindings, I missed 'em!
-nnoremap gs 0
+nnoremap gs ^
 nnoremap gl $
 nnoremap ge G
 nnoremap 0 <NOP>
@@ -48,6 +54,7 @@ nnoremap G <NOP>
 nnoremap $ <NOP>
 nnoremap U <C-r>
 nnoremap <C-r> <NOP>
+nnoremap gh 0
 " /Helix bindings
 "
 " COC bindings
@@ -106,15 +113,14 @@ nnoremap <leader>rn <Plug>(coc-rename)
 
 
 call plug#begin()
-  Plug 'Exafunction/codeium.vim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
   Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-  Plug 'meain/vim-printer'
-  Plug 'tpope/vim-commentary'
+  Plug 'terrortylor/nvim-comment'
   Plug 'neoclide/coc.nvim', {'branch': 'release'} 
   Plug 'sbdchd/neoformat'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'github/copilot.vim'
 call plug#end()
 
 let g:python3_host_prog="/usr/bin/python3"
